@@ -16,6 +16,7 @@ import (
 	"strings"
 	"syscall"
 
+	_ "github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 
 	"github.com/go-chi/chi/v5"
