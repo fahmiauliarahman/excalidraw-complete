@@ -16,7 +16,7 @@ The project goal is to alleviate the setup complexities traditionally associated
 To get started, download the latest release binary:
 
 ```bash
-# Visit https://github.com/PatWie/excalidraw-complete/releases/ for the download URL
+# Visit https://github.com/fahmiauliarahman/excalidraw-complete/releases/ for the download URL
 wget <binary-download-url>
 chmod +x excalidraw-complete
 ./excalidraw-complete
@@ -41,7 +41,7 @@ For an easy setup with Cloudflare R2 storage, you can use Docker Compose:
 
 ```bash
 # Clone the repository
-git clone https://github.com/PatWie/excalidraw-complete.git --recursive
+git clone https://github.com/fahmiauliarahman/excalidraw-complete.git --recursive
 cd excalidraw-complete
 
 # Copy and configure environment variables
@@ -62,7 +62,7 @@ Interested in contributing or customizing? Build Excalidraw Complete from source
 
 ```bash
 # Clone and prepare the Excalidraw frontend
-git clone https://github.com/PatWie/excalidraw-complete.git --recursive
+git clone https://github.com/fahmiauliarahman/excalidraw-complete.git --recursive
 cd ./excalidraw-complete/excalidraw
 
 # git checkout tags/v0.17.3
