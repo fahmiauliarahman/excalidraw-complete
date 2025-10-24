@@ -9,7 +9,7 @@ RUN npm install -g cross-env
 RUN yarn install
 COPY excalidraw/ ./
 WORKDIR /home/node/app/excalidraw-app
-RUN yarn build:app:docker
+RUN NODE_OPTIONS="--max-old-space-size=4096" yarn build:app:docker
 
 # Then build the Go backend
 FROM golang:1.21-alpine AS builder

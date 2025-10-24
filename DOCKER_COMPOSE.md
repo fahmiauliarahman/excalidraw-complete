@@ -85,6 +85,14 @@ If you encounter build errors, try the following:
 5. **cross-env not found**: This is now handled by installing cross-env globally in the Dockerfile
 6. **Entry module not found**: Fixed by changing the working directory to excalidraw-app before running the build command
 7. **Module not found (clsx)**: Fixed by copying the packages/excalidraw package.json to ensure all workspace dependencies are installed
+8. **JavaScript heap out of memory**: If you encounter a "JavaScript heap out of memory" error during the frontend build, it's because the Node.js process doesn't have enough memory allocated. This is fixed by increasing the heap size limit with the `--max-old-space-size` flag in the Dockerfile.
+
+```bash
+# The Dockerfile has been updated to use:
+# NODE_OPTIONS="--max-old-space-size=4096" yarn build:app:docker
+# If you still encounter this issue, try rebuilding with --no-cache
+docker-compose build --no-cache excalidraw-complete
+```
 
 ### Runtime Issues
 
