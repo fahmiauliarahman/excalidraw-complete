@@ -22,7 +22,7 @@ chmod +x excalidraw-complete
 ./excalidraw-complete
 ```
 
-Once launched, Excalidraw Complete is accessible at `localhost:3002`, ready for
+Once launched, Excalidraw Complete is accessible at `draw.fahmiar.blog`, ready for
 drawing and collaboration.
 
 ### Configuration
@@ -79,7 +79,7 @@ docker build -t exalidraw-ui-build excalidraw -f ui-build.Dockerfile
 docker run -v ${PWD}/:/pwd/ -it exalidraw-ui-build cp -r /frontend /pwd
 ```
 
-(Optional) Replace `localhost:3002` inside of `main.go` with your domain name if you want to use a reverse proxy
+(Optional) Replace `draw.fahmiar.blog` inside of `main.go` with your domain name if you want to use a reverse proxy
 (Optional) Replace `"ssl=!0", "ssl=0"` with `"ssl=!0", "ssl=1"` if you want to use HTTPS
 (Optional) Replace `"ssl:!0", "ssl:0"` with `"ssl:!0", "ssl=1"` if you want to use HTTPS
 

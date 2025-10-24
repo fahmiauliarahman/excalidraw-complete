@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	_ "embed"
 	"excalidraw-complete/core"
 	"excalidraw-complete/handlers/api/documents"
 	"excalidraw-complete/handlers/api/firebase"
@@ -69,8 +68,8 @@ func handleUI() http.Handler {
 			http.Error(w, "Error reading file", http.StatusInternalServerError)
 			return
 		}
-		modifiedContent := strings.ReplaceAll(string(fileContent), "firestore.googleapis.com", "localhost:3002")
-		modifiedContent = strings.ReplaceAll(modifiedContent, "ssl=!0", "ssl=!0")
+		modifiedContent := strings.ReplaceAll(string(fileContent), "firestore.googleapis.com", "draw.fahmiar.blog")
+		modifiedContent = strings.ReplaceAll(modifiedContent, "ssl=!0", "ssl=0")
 		modifiedContent = strings.ReplaceAll(modifiedContent, "ssl:!0", "ssl:1")
 
 		// Set the correct Content-Type based on the file extension
@@ -99,7 +98,6 @@ func handleUI() http.Handler {
 			http.Error(w, "Error serving file", http.StatusInternalServerError)
 			return
 		}
-		return
 	})
 }
 
