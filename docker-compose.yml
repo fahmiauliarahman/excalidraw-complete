@@ -1,0 +1,37 @@
+services:
+  excalidraw-complete:
+    build:
+      context: .
+      dockerfile: excalidraw-complete.Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      # Storage configuration for Cloudflare R2 (S3-compatible)
+      - STORAGE_TYPE=s3
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      
+      # AWS credentials for Cloudflare R2
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION:-auto}
+      
+      # Optional: Custom endpoint for Cloudflare R2
+      - AWS_ENDPOINT_URL_S3=${AWS_ENDPOINT_URL_S3}
+      
+      # Application configuration
+      - LOGLEVEL=${LOGLEVEL:-info}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "https://draw.fahmiar.blog/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Create a .env file with the following variables:
+# S3_BUCKET_NAME=your-r2-bucket-name
+# AWS_ACCESS_KEY_ID=your-r2-access-key
+# AWS_SECRET_ACCESS_KEY=your-r2-secret-key
+# AWS_REGION=auto
+# AWS_ENDPOINT_URL_S3=https://your-account-id.r2.cloudflarestorage.com
+# LOGLEVEL=info

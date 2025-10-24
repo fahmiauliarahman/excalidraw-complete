@@ -5,8 +5,9 @@ import (
 	"context"
 	"excalidraw-complete/core"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -25,7 +26,36 @@ func NewDocumentStore(bucketName string) core.DocumentStore {
 		log.Fatalf("unable to load SDK config, %v", err)
 	}
 
-	s3Client := s3.NewFromConfig(cfg)
+	// Check for custom endpoint (needed for Cloudflare R2)
+	var s3Client *s3.Client
+	if endpointURL := os.Getenv("AWS_ENDPOINT_URL_S3"); endpointURL != "" {
+		// Create custom resolver for the endpoint
+		customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+			if service == s3.ServiceID {
+				return aws.Endpoint{
+					URL:               endpointURL,
+					HostnameImmutable: true,
+				}, nil
+			}
+			// Fallback to default resolution
+			return aws.Endpoint{}, fmt.Errorf("unknown endpoint requested")
+		})
+
+		// Create config with custom resolver
+		cfg, err = config.LoadDefaultConfig(context.TODO(),
+			config.WithEndpointResolverWithOptions(customResolver),
+		)
+		if err != nil {
+			log.Fatalf("unable to load SDK config with custom endpoint, %v", err)
+		}
+
+		s3Client = s3.NewFromConfig(cfg, func(o *s3.Options) {
+			o.UsePathStyle = true // Required for Cloudflare R2
+		})
+	} else {
+		// Use default S3 client
+		s3Client = s3.NewFromConfig(cfg)
+	}
 
 	return &documentStore{
 		s3Client: s3Client,
@@ -43,7 +73,7 @@ func (s *documentStore) FindID(ctx context.Context, id string) (*core.Document, 
 	}
 	defer resp.Body.Close()
 
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read document data: %v", err)
 	}

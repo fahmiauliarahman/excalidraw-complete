@@ -35,6 +35,27 @@ Excalidraw Complete adapts to your preferences with customizable storage solutio
 
 These flexible configurations ensure Excalidraw Complete fits seamlessly into your existing setup, whether on-premise or in the cloud.
 
+## Docker Compose with Cloudflare R2
+
+For an easy setup with Cloudflare R2 storage, you can use Docker Compose:
+
+```bash
+# Clone the repository
+git clone https://github.com/PatWie/excalidraw-complete.git --recursive
+cd excalidraw-complete
+
+# Copy and configure environment variables
+cp .env.example .env
+# Edit .env with your Cloudflare R2 credentials
+
+# Start with Docker Compose
+docker-compose up -d
+```
+
+Access Excalidraw Complete at `https://draw.fahmiar.blog`.
+
+For detailed instructions, see [DOCKER_COMPOSE.md](DOCKER_COMPOSE.md).
+
 ## Building from Source
 
 Interested in contributing or customizing? Build Excalidraw Complete from source with these steps:
@@ -60,7 +81,7 @@ docker run -v ${PWD}/:/pwd/ -it exalidraw-ui-build cp -r /frontend /pwd
 
 (Optional) Replace `localhost:3002` inside of `main.go` with your domain name if you want to use a reverse proxy
 (Optional) Replace `"ssl=!0", "ssl=0"` with `"ssl=!0", "ssl=1"` if you want to use HTTPS
-(Optional) Replace `"ssl:!0", "ssl:0"` with `"ssl:!0", "ssl:1"` if you want to use HTTPS
+(Optional) Replace `"ssl:!0", "ssl:0"` with `"ssl:!0", "ssl=1"` if you want to use HTTPS
 
 Compile the Go application:
 

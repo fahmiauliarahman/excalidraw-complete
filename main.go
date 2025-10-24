@@ -70,8 +70,8 @@ func handleUI() http.Handler {
 			return
 		}
 		modifiedContent := strings.ReplaceAll(string(fileContent), "firestore.googleapis.com", "localhost:3002")
-		modifiedContent = strings.ReplaceAll(modifiedContent, "ssl=!0", "ssl=0")
-		modifiedContent = strings.ReplaceAll(modifiedContent, "ssl:!0", "ssl:0")
+		modifiedContent = strings.ReplaceAll(modifiedContent, "ssl=!0", "ssl=!0")
+		modifiedContent = strings.ReplaceAll(modifiedContent, "ssl:!0", "ssl:1")
 
 		// Set the correct Content-Type based on the file extension
 		contentType := http.DetectContentType([]byte(modifiedContent))
@@ -244,7 +244,7 @@ func waitForShutdown(ioo *socketio.Server) {
 func main() {
 	// Define a log level flag
 	logLevel := flag.String("loglevel", "info", "Set the logging level: debug, info, warn, error, fatal, panic")
-    listenAddr := flag.String("listen", ":3002", "Set the server listen address")
+	listenAddr := flag.String("listen", ":3002", "Set the server listen address")
 	flag.Parse()
 
 	// Set the log level
